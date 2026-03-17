@@ -50,33 +50,20 @@
             z-index: 2;
         }
 
-        .top-brand-wrapper {
+        .top-brand {
             position: absolute;
             top: 2px;
             left: -45px;
-            z-index: 2;
-            pointer-events: none;
-            mix-blend-mode: screen;
-            -webkit-mix-blend-mode: screen;
-            /* Force iOS/Safari compliance */
-            /* Force hardware acceleration to prevent stacking context bugs on mobile */
-            transform: translateZ(0);
-        }
-
-        .top-brand {
             width: 22vw;
             min-width: 180px;
             max-width: 280px;
             height: auto;
-            display: block;
+            z-index: 2;
+            pointer-events: none;
 
-            /* Logo Personality - Crush the gray background into pure black */
-            filter: grayscale(100%) contrast(2.8) brightness(0.8);
-            -webkit-filter: grayscale(100%) contrast(2.8) brightness(0.8);
-
-            /* Tighten the edges to crop out the AI generation sparkle */
-            clip-path: inset(8% 8% 15% 8%);
-            -webkit-clip-path: inset(8% 8% 15% 8%);
+            /* Transparent PNG Styling */
+            filter: brightness(1.1) drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
+            -webkit-filter: brightness(1.1) drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
         }
 
         /* The Antagonistic Headline dynamically resizing */
@@ -241,9 +228,7 @@
 </head>
 
 <body>
-    <div class="top-brand-wrapper">
-        <img src="logo.jpg" alt="Fit To Fly" class="top-brand">
-    </div>
+    <img src="logo_transparent.png" alt="Fit To Fly" class="top-brand">
 
     <div class="container">
         <h1>Coulda<br>Been<br>You.</h1>
