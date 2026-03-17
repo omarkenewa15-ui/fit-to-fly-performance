@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COULDA BEEN YOU | Fit To Fly</title>
+    <!-- Importing modern minimal and typewriter fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@300;400;700;900&display=swap');
+
+        /* Force zero scrolling */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            /* This removes the scrollbar completely on mobile */
+            overflow: hidden;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+
+            /* Responsive Background */
+            background-image: linear-gradient(rgba(5, 5, 5, 0.75), rgba(5, 5, 5, 0.95)), url('bg_orig.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            /* Flex properties to push contents to center of remaining space */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 30px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* The Antagonistic Headline dynamically resizing */
+        h1 {
+            /* clamp(MIN, VAL, MAX) - Adjusts size dynamically but won't let it get microscopic or massive */
+            font-size: clamp(3.5rem, 15vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            margin: 0 0 clamp(20px, 4vh, 35px) 0;
+            line-height: 0.9;
+        }
+
+        /* Minimal Form Design */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input[type="email"],
+        button {
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="email"] {
+            background: transparent;
+            border: 1px solid #777;
+            /* Made the default border much more prominent */
+            color: #fff;
+            caret-color: #fff;
+            /* Ensures the flashing cursor is stark white */
+            transition: border-color 0.3s ease;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1rem;
+        }
+
+        input[type="email"]:focus {
+            border-color: #ffffff;
+        }
+
+        input[type="email"]::placeholder {
+            color: #444;
+            letter-spacing: 0.05em;
+        }
+
+        button {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            letter-spacing: 0.05em;
+        }
+
+        button:hover {
+            background-color: #cccccc;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* The Subheadline (The FOMO anchor) dynamically resizing */
+        p.subtitle {
+            font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+            font-weight: 300;
+            color: #888888;
+            margin-top: clamp(30px, 6vh, 50px);
+            margin-bottom: 0;
+            line-height: 1.5;
+            letter-spacing: 0.05em;
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .footer {
+            padding-bottom: clamp(15px, 4vh, 30px);
+            font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+            color: #444;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        /* Transition Wrappers */
+        .content-swap {
+            display: grid;
+            grid-template-areas: "stack";
+            width: 100%;
+            place-items: center;
+        }
+
+        .fade-wrapper {
+            grid-area: stack;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fade-wrapper.hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Success Message Styling */
+        #success-message {
+            width: 100%;
+            padding: 0 30px;
+            box-sizing: border-box;
+        }
+
+        .success-title {
+            font-family: 'Courier Prime', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+        }
+
+        .success-subtitle {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #888888;
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Coulda<br>Been<br>You.</h1>
+
+        <div class="content-swap">
+            <!-- Wrapper to fade out form and subtitle together -->
+            <div id="form-container" class="fade-wrapper">
+                <!-- Hidden iframe to handle native form submission completely silently, bypassing all JS security blocks -->
+                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+                <!-- The form natively targets the invisible iframe instead of the current page -->
+                <form id="waitlist-form"
+                    action="https://script.google.com/macros/s/AKfycbw0_tonSUBC0we_8J3kU7drhXQ1ODaftUhbFJhKF-GtRoQ73ER9gyF9Gmxcrb4Xf-yj/exec"
+                    method="POST" target="hidden_iframe">
+                    <input type="email" name="Email" placeholder="ENTER YOUR EMAIL ADDRESS" required>
+                    <button type="submit">Earn Your Spot</button>
+                </form>
+
+                <p class="subtitle">
+                    The standard for human performance has shifted. We build elite physical machines and deploy them
+                    globally.<br><br>
+                    The next <span class="highlight">Fit To Fly</span> cohort is being formed. You are either inside the
+                    room,
+                    or you are watching from the sidelines.
+                </p>
+            </div>
+
+            <!-- The Success Message (Hidden by default) -->
+            <div id="success-message" class="fade-wrapper hidden">
+                <h2 class="success-title">REQUEST SENT.</h2>
+                <p class="success-subtitle">Your coordinates have been logged. You have taken the first step toward
+                    building
+                    an elite physical machine. Await further instructions.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        FIT TO FLY PERFORMANCE LTD
+    </div>
+
+    <!-- Script to handle the form transition and data submission -->
+    <script>
+        const form = document.getElementById('waitlist-form');
+        form.addEventListener('submit', function (e) {
+            // NOTICE: We DO NOT use e.preventDefault() here. 
+            // We want the form to submit natively to the invisible iframe we built above.
+            // This bypasses 100% of Javascript CORS/Fetch security blocks.
+
+            const formContainer = document.getElementById('form-container');
+            const successMessage = document.getElementById('success-message');
+            const button = this.querySelector('button');
+
+            // 1. Instantiate the gritty loading state immediately
+            button.innerText = 'TRANSMITTING...';
+            button.style.backgroundColor = '#333';
+            button.style.color = '#fff';
+            button.style.cursor = 'wait';
+
+            // 2. Play the visual success animation.
+            // Because it natively submitted to the iframe, the data is guaranteed to be travelling to Google in the background.
+            setTimeout(() => {
+                // Fade out the form container
+                formContainer.style.opacity = '0';
+                formContainer.style.transform = 'translateY(-10px)';
+
+                setTimeout(() => {
+                    // Hide form container completely
+                    formContainer.classList.add('hidden');
+
+                    // Show the success message
+                    successMessage.classList.remove('hidden');
+                    void successMessage.offsetWidth;
+
+                    // Fade in the success message
+                    successMessage.style.opacity = '1';
+                    successMessage.style.transform = 'translateY(0)';
+                }, 500);
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
