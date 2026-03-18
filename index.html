@@ -103,6 +103,7 @@
             /* Made the default border much more prominent */
             color: #fff;
             caret-color: #fff;
+            text-align: center;
             /* Ensures the flashing cursor is stark white */
             transition: border-color 0.3s ease;
             font-family: 'Courier Prime', monospace;
@@ -116,6 +117,10 @@
         input[type="email"]::placeholder {
             color: #444;
             letter-spacing: 0.05em;
+        }
+
+        input[type="email"]:focus::placeholder {
+            color: transparent;
         }
 
         .error-message {
