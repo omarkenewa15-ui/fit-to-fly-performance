@@ -52,8 +52,8 @@
 
         .top-brand {
             position: absolute;
-            top: 2px;
-            left: -45px;
+            top: 10px;
+            left: -60px;
             width: 22vw;
             min-width: 180px;
             max-width: 280px;
@@ -70,7 +70,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-49.5%, -50%);
             width: 140vw;
             max-width: 1500px;
             z-index: 1;
@@ -112,8 +112,8 @@
 
         input[type="email"] {
             background: transparent;
-            border: 1px solid #777;
-            /* Made the default border much more prominent */
+            border: 1px solid #aaa;
+            /* Brighter default border for higher contrast */
             color: #fff;
             caret-color: #fff;
             text-align: center;
@@ -125,10 +125,12 @@
 
         input[type="email"]:focus {
             border-color: #ffffff;
+            /* Added an inner shadow to simulate a thick, solid 2px white border without breaking layout */
+            box-shadow: inset 0 0 0 1px #ffffff, 0 0 0 1px #ffffff;
         }
 
         input[type="email"]::placeholder {
-            color: #444;
+            color: #777;
             letter-spacing: 0.05em;
         }
 
