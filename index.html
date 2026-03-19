@@ -66,6 +66,19 @@
             -webkit-filter: brightness(1.1) drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
         }
 
+        .bg-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140vw;
+            max-width: 1500px;
+            z-index: 1;
+            opacity: 0.04;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+
         /* The Antagonistic Headline dynamically resizing */
         h1 {
             /* clamp(MIN, VAL, MAX) - Adjusts size dynamically but won't let it get microscopic or massive */
@@ -234,6 +247,7 @@
 
 <body>
     <img src="logo_transparent.png" alt="Fit To Fly" class="top-brand">
+    <img src="CBY_Monogram_Transparent.png" alt="CYB Logo" class="bg-logo">
 
     <div class="container">
         <h1>Coulda<br>Been<br>You.</h1>
