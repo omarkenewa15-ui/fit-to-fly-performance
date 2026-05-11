@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COULDA BEEN YOU | Fit To Fly</title>
+    <!-- Importing modern minimal and typewriter fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@300;400;700;900&display=swap');
+
+        /* Force zero scrolling */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            /* This removes the scrollbar completely on mobile */
+            overflow: hidden;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+
+            /* Responsive Background */
+            background-image: linear-gradient(rgba(5, 5, 5, 0.75), rgba(5, 5, 5, 0.95)), url('bg_orig.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 100px; /* Bulletproof clearance for the top logo */
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            /* Flex properties to push contents to center of remaining space */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 30px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .top-brand {
+            position: absolute;
+            /* === DESKTOP LOGO POSITION === */
+            /* Change these values to move the logo on computers */
+            top: 20px;
+            left: -30px; 
+            /* ============================= */
+            width: 20vw;
+            min-width: 120px;
+            max-width: 260px;
+            height: auto;
+            z-index: 2;
+            pointer-events: none;
+            filter: brightness(1.1) drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
+            -webkit-filter: brightness(1.1) drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
+        }
+
+        /* === MOBILE LOGO POSITION (Phones) === */
+        @media (max-width: 768px) {
+            .top-brand {
+                /* Change these values to move the logo on phones */
+                top: 15px;
+                left: -10px;
+            }
+        }
+        /* ===================================== */
+
+        .bg-logo {
+            position: absolute;
+            /* === BACKGROUND CBY WATERMARK === */
+            top: 50%; /* Vertical center */
+            left: 50%; /* Horizontal center */
+            /* The translate actually centers the massive image. To shift it slightly right, change -49.5% to something like -45% */
+            transform: translate(-49.5%, -50%);
+            /* To make it bigger/smaller, change this width (e.g. 160vw for bigger, 120vw for smaller) */
+            width: 140vw;
+            /* ================================ */
+            max-width: 1500px;
+            z-index: 1;
+            opacity: 0.04;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+
+        /* The Antagonistic Headline dynamically resizing */
+        h1 {
+            /* clamp(MIN, VAL, MAX) - Adjusts size dynamically but won't let it get microscopic or massive */
+            font-size: clamp(3.5rem, 15vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            margin: 0 0 clamp(20px, 4vh, 35px) 0;
+            line-height: 0.9;
+        }
+
+        /* Minimal Form Design */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input[type="email"],
+        button {
+            padding: clamp(14px, 3vw, 16px) clamp(16px, 4vw, 20px);
+            font-size: 16px; /* 16px exact prevents iOS Safari auto-zoom */
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="email"] {
+            background: transparent;
+            border: 1px solid #aaa;
+            color: #fff;
+            caret-color: #fff;
+            text-align: center;
+            transition: border-color 0.3s ease;
+            font-family: 'Courier Prime', monospace;
+            font-size: 16px; /* Forced 16px for iOS */
+        }
+
+        input[type="email"]:focus {
+            border-color: #ffffff;
+            /* Added an inner shadow to simulate a thick, solid 2px white border without breaking layout */
+            box-shadow: inset 0 0 0 1px #ffffff, 0 0 0 1px #ffffff;
+        }
+
+        input[type="email"]::placeholder {
+            color: #777;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="email"]:focus::placeholder {
+            color: transparent;
+        }
+
+        .error-message {
+            color: #ff3333;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: -5px;
+            margin-bottom: 5px;
+            text-align: center;
+            display: none;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        button {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            letter-spacing: 0.05em;
+        }
+
+        button:hover {
+            background-color: #cccccc;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* The Subheadline (The FOMO anchor) dynamically resizing */
+        p.subtitle {
+            font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+            font-weight: 300;
+            color: #888888;
+            margin-top: clamp(30px, 6vh, 50px);
+            margin-bottom: 0;
+            line-height: 1.5;
+            letter-spacing: 0.05em;
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .footer {
+            padding-bottom: clamp(15px, 4vh, 30px);
+            font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+            color: #444;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        /* Transition Wrappers */
+        .content-swap {
+            display: grid;
+            grid-template-areas: "stack";
+            width: 100%;
+            place-items: center;
+        }
+
+        .fade-wrapper {
+            grid-area: stack;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fade-wrapper.hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Success Message Styling */
+        #success-message {
+            width: 100%;
+            padding: 0 30px;
+            box-sizing: border-box;
+        }
+
+        .success-title {
+            font-family: 'Courier Prime', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+        }
+
+        .success-subtitle {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #888888;
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="logo_transparent.png" alt="Fit To Fly" class="top-brand">
+    <img src="CBY_Monogram_Transparent.png" alt="CYB Logo" class="bg-logo">
+
+    <div class="container">
+        <h1>Coulda<br>Been<br>You.</h1>
+
+        <div class="content-swap">
+            <!-- Wrapper to fade out form and subtitle together -->
+            <div id="form-container" class="fade-wrapper">
+                <!-- Hidden iframe to handle native form submission completely silently, bypassing all JS security blocks -->
+                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+                <!-- The form natively targets the invisible iframe instead of the current page -->
+                <form id="waitlist-form"
+                    action="https://script.google.com/macros/s/AKfycbw0_tonSUBC0we_8J3kU7drhXQ1ODaftUhbFJhKF-GtRoQ73ER9gyF9Gmxcrb4Xf-yj/exec"
+                    method="POST" target="hidden_iframe" autocomplete="off" novalidate>
+                    <input type="email" id="email-input" name="Email" placeholder="ENTER YOUR EMAIL ADDRESS"
+                        autocomplete="off" required>
+                    <div id="email-error" class="error-message">INVALID EMAIL DETECTED</div>
+                    <button type="submit">Earn Your Spot</button>
+                </form>
+
+                <p class="subtitle">
+                    The standard for human performance has shifted. We build elite physical machines and deploy them
+                    globally.<br><br>
+                    The next <span class="highlight">Fit To Fly</span> cohort is being formed. You are either inside the
+                    room,
+                    or you are watching from the sidelines.
+                </p>
+            </div>
+
+            <!-- The Success Message (Hidden by default) -->
+            <div id="success-message" class="fade-wrapper hidden">
+                <h2 class="success-title">REQUEST SENT.</h2>
+                <p class="success-subtitle">You have taken the first step toward building an elite physical machine.
+                    Await further instructions.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        FIT TO FLY PERFORMANCE LTD
+    </div>
+
+    <!-- Script to handle the form transition and data submission -->
+    <script>
+        // Force clear the form on page reload/navigation to prevent browser autocomplete behavior
+        window.addEventListener('pageshow', () => {
+            document.getElementById('waitlist-form').reset();
+        });
+        document.getElementById('waitlist-form').reset();
+
+        const form = document.getElementById('waitlist-form');
+        const emailInput = document.getElementById('email-input');
+        const emailError = document.getElementById('email-error');
+
+        // Remove error styling when user types
+        emailInput.addEventListener('input', () => {
+            emailError.style.display = 'none';
+            emailInput.style.borderColor = '#777';
+        });
+
+        form.addEventListener('submit', async function (e) {
+            // Take complete control: prevent the form from submitting instantly
+            e.preventDefault();
+
+            const emailValue = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+            // 1. Check basic formatting first (if it's missing @ or .com, kill it instantly)
+            if (!emailRegex.test(emailValue)) {
+                emailError.innerText = 'INVALID FORMAT DETECTED';
+                emailError.style.display = 'block';
+                emailInput.style.borderColor = '#ff3333';
+                return;
+            }
+
+            const formContainer = document.getElementById('form-container');
+            const successMessage = document.getElementById('success-message');
+            const button = this.querySelector('button');
+
+            // 2. Put button in loading state while checking the backend
+            button.innerText = 'VERIFYING INBOX...';
+            button.style.backgroundColor = '#333';
+            button.style.color = '#fff';
+            button.style.cursor = 'wait';
+            button.disabled = true;
+
+            // 3. Ping the Deep Verification API to see if the inbox actually exists
+            try {
+                // ACTION REQUIRED: Paste your free Abstract API Key here
+                const apiKey = 'c87e686f5f814367beab51444f07689c';
+
+                // Only run the deep check if you have pasted an API key
+                if (apiKey !== 'YOUR_API_KEY_HERE') {
+                    const apiURL = `https://emailreputation.abstractapi.com/v1/?api_key=${apiKey}&email=${encodeURIComponent(emailValue)}`;
+                    const response = await fetch(apiURL);
+                    const data = await response.json();
+
+                    // If the API physically pings the mail server and getting explicit rejection:
+                    if (data.email_deliverability &&
+                        (data.email_deliverability.is_smtp_valid === false || data.email_deliverability.status === "undeliverable")) {
+
+                        emailError.innerText = 'EMAIL DOES NOT EXIST';
+                        emailError.style.display = 'block';
+                        emailInput.style.borderColor = '#ff3333';
+
+                        // Reset the button so they can try again
+                        button.innerText = 'EARN YOUR SPOT';
+                        button.style.backgroundColor = '#ffffff';
+                        button.style.color = '#000000';
+                        button.style.cursor = 'pointer';
+                        button.disabled = false;
+                        return; // Stop the code here. Do not send to Google.
+                    }
+                }
+            } catch (err) {
+                console.log("Verification bypassed or offline.");
+            }
+
+            // 4. The email is legit. Clear errors and submit!
+            emailError.style.display = 'none';
+            emailInput.style.borderColor = '#777';
+
+            // Native form submission to our hidden iframe (bypassing Google's CORS)
+            form.submit();
+
+            button.innerText = 'TRANSMITTING...';
+
+            // 5. Play the visual success animation
+
+            // Because it natively submitted to the iframe, the data is guaranteed to be travelling to Google in the background.
+            setTimeout(() => {
+                // Fade out the form container
+                formContainer.style.opacity = '0';
+                formContainer.style.transform = 'translateY(-10px)';
+
+                setTimeout(() => {
+                    // Hide form container completely
+                    formContainer.classList.add('hidden');
+
+                    // Show the success message
+                    successMessage.classList.remove('hidden');
+                    void successMessage.offsetWidth;
+
+                    // Fade in the success message
+                    successMessage.style.opacity = '1';
+                    successMessage.style.transform = 'translateY(0)';
+                }, 500);
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
